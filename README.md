@@ -4,9 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## steps
 npm install
-
-### `npm start`
+npm start
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000/shipments/track/:trackingNumber) to view it in your browser.
+Open [http://localhost:3000/shipments/track/:trackingNumber](http://localhost:3000/shipments/track/:trackingNumber) to view it in your browser.
 
