@@ -68,16 +68,16 @@ let theme = createTheme(
       },
     },
     typography: {
-      fontFamily: "'Roboto', sans-serif",
-      fontFamilySecondary: "'Roboto Slab', serif",
+      fontFamily: "'Cairo', sans-serif",
+      fontFamilySecondary:  "'Cairo', sans-serif",
       body1: {
-        fontFamily: "'Roboto', sans-serif",
+        fontFamily: "'Cairo', sans-serif",
         fontWeight: 400,
         fontSize: '1rem',
         lineHeight: '1.625rem',
       },
       body2: {
-        fontFamily: "'Roboto', sans-serif",
+        fontFamily: "'Cairo', sans-serif",
         fontWeight: 400,
         fontSize: '0.875rem',
         lineHeight: '1.4375rem',

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Container,
-  AppBar,
   Toolbar,
   Typography,
   Box,
@@ -9,16 +8,23 @@ import {
   MenuItem,
   FormControl,
   Select,
+  IconButton,
+  TextField,
+  useTheme,
+  useMediaQuery,
+  Drawer,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useTranslation } from "react-i18next";
 
-import StyledAppBar from "./NavBar.styles";
+import StyledAppBar, { DrawerHeader } from "./NavBar.styles";
 
 const NavBar = () => {
   const { t, i18n } = useTranslation("translation");
-
   const navbarList = [
     {
       text: t("translation:main"),
@@ -33,42 +39,128 @@ const NavBar = () => {
       href: "#",
     },
   ];
+
+  const theme = useTheme();
+  const isTablet = useMediaQuery(theme.breakpoints.down("lg"));
+
+  const [trackingNumber, setTrackingNumber] = useState();
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpenDrawer(true);
+  };
+  const handleDrawerClose = () => {
+    setOpenDrawer(false);
+  };
+
+  const handleTrackingNumberChange = (e) => {
+    setTrackingNumber(e.target.value);
+  };
+
+  const handleLangaugeChange = (e) => {
+    i18n.changeLanguage(e.target.value);
+  };
+
+  const renderNavBarLinksMidSectoin = () => {
+    return navbarList.map((item) => (
+      <Typography component="a" className="link" href={item.href}>
+        {item.text}
+      </Typography>
+    ));
+  };
+  const renderNavBarLinksEndSection = () => {
+    return (
+      <>
+        <Typography component="a" className="link" href="#">
+          {t("translation:log_in")}
+        </Typography>
+
+        <FormControl className="langMenu" variant="standard">
+          <InputLabel>{t("translation:lang")}</InputLabel>
+          <Select value={i18n.langauge} onChange={handleLangaugeChange}>
+            <MenuItem value="en">{t("translation:english")}</MenuItem>
+            <MenuItem value="ar">{t("translation:arabic")}</MenuItem>
+          </Select>
+        </FormControl>
+      </>
+    );
+  };
+
   return (
     <StyledAppBar position="static">
       <Container maxWidth="xl">
         <Toolbar>
           <Box className="logoContainer">
-            <DeliveryDiningIcon />
+            <DeliveryDiningIcon fontSize="large" color="primary" />
             <Typography className="link" variant="h5">
               {t("translation:bosta")}
             </Typography>
           </Box>
+          {!isTablet && (
+            <Box className="linksContainer">{renderNavBarLinksMidSectoin()}</Box>
+          )}
 
           <Box className="linksContainer">
-            {navbarList.map((item) => (
-              <Typography
-                variant="h6"
+            <Box className="trackShipment">
+              <TextField
+                placeholder={t("translation:track_shipment")}
+                onChange={handleTrackingNumberChange}
+                value={trackingNumber}
+              />
+              <IconButton
                 component="a"
-                className="link"
-                href={item.href}
+                href={`/shipments/track/${trackingNumber}`}
               >
-                {item.text}
-              </Typography>
-            ))}
-          </Box>
+                <SearchIcon color="primary" />
+              </IconButton>
+            </Box>
 
-          <Box className="linksContainer">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
-              <Select label="Age">
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-            <Typography variant="h6" component="a" className="link" href="#">
-              {t("translation:log_in")}
-            </Typography>
+            {isTablet ? (
+              <>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  edge="start"
+                  sx={{ mr: 2, ...(openDrawer && { display: "none" }) }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                {openDrawer && (
+                  <Drawer
+                    sx={{
+                      width: 240,
+                      flexShrink: 0,
+                      "& .MuiDrawer-paper": {
+                        width: 240,
+                        boxSizing: "border-box",
+                      },
+                    }}
+                    variant="persistent"
+                    anchor="right"
+                    open={openDrawer}
+                  >
+                    <DrawerHeader>
+                      <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === "ltr" ? (
+                          <ChevronLeftIcon />
+                        ) : (
+                          <ChevronRightIcon />
+                        )}
+                      </IconButton>
+                    </DrawerHeader>
+                    <Box className="DrawerItemsContainer">
+                      {renderNavBarLinksMidSectoin()}
+                      {renderNavBarLinksEndSection()}
+                    </Box>
+                  </Drawer>
+                )}
+              </>
+            ) : (
+              <>
+                {renderNavBarLinksEndSection()}
+              </>
+            )}
           </Box>
         </Toolbar>
       </Container>

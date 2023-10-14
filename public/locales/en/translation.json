@@ -7,7 +7,7 @@
   "track_shipment": "Track Shipment",
   "shipment_no": "Shipment No. {{trackingNumber}} ",
   "last_update": "Last Update",
-  "provider_name": "Provider Namer",
+  "provider_name": "Provider Name",
   "delivered_on": "Delivered On",
   "ticket_created": "Ticket Created",
   "package_received": "Package Recieved",
@@ -24,6 +24,9 @@
   "delivery_address": "Delivery Address",
   "is_there_problem": "Is there a problem with your shipment?", 
   "report_problem": "Report problem",
-  "delivered_to_sender": "Delivered To Sender"
+  "delivered_to_sender": "Delivered To Sender",
+  "english": "English",
+  "arabic": "Arabic",
+  "lang": "Lang"
 
 }
